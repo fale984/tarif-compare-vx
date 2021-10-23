@@ -7,7 +7,12 @@ namespace TariffComparison.Core.Factory
     {
         public decimal CalculateAnnualColst(TariffProduct product, decimal consumption)
         {
-            decimal annualCost = product.BaseCost * 12 + consumption * product.AddedCost;
+            decimal annualCost = product.BaseCost * 12;
+
+            if (consumption > 0)
+            {
+                annualCost += consumption * product.AddedCost;
+            }
 
             return annualCost;
         }
