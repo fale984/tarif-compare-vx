@@ -5,7 +5,13 @@ namespace TariffComparison.Core.Factory
 {
     public class MonthlyTariffCalculator : ITariffCalculatorMethod
     {
-        public decimal CalculateAnnualColst(TariffProduct product, decimal consumption)
+        /// <summary>
+        /// Calculates the cost as monthly base * 12 + consumption * kWh cost
+        /// </summary>
+        /// <param name="product">Product information</param>
+        /// <param name="consumption">Consumption</param>
+        /// <returns>Annual cost</returns>
+        public decimal CalculateAnnualCost(TariffProduct product, decimal consumption)
         {
             decimal annualCost = product.BaseCost * 12;
 

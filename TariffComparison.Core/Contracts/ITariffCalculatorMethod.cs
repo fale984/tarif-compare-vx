@@ -4,6 +4,6 @@ namespace TariffComparison.Core.Contracts
 {
     public interface ITariffCalculatorMethod
     {
-        decimal CalculateAnnualColst(TariffProduct product, decimal consumption);
+        decimal CalculateAnnualCost(TariffProduct product, decimal consumption);
     }
 }

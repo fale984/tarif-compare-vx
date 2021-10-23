@@ -12,7 +12,7 @@ namespace TariffComparison.Tests.Core.Factory
         [InlineData(600, 3000, 0.20, 6000, 1200)]
         [InlineData(800, 5000, 0.10, 0, 800)]
         [InlineData(800, 2000, 0.10, -3000, 800)]
-        public void CalculateAnnualColstForDifferentValues(decimal baseCost, decimal threshold, decimal addedCost, decimal consumption, decimal expected)
+        public void CalculateAnnualCostForDifferentValues(decimal baseCost, decimal threshold, decimal addedCost, decimal consumption, decimal expected)
         {
             // arrange
             var product = new TariffProduct
@@ -25,7 +25,7 @@ namespace TariffComparison.Tests.Core.Factory
             var calculator = new YearlyTariffCalculator();
 
             // act
-            var annualCost = calculator.CalculateAnnualColst(product, consumption);
+            var annualCost = calculator.CalculateAnnualCost(product, consumption);
 
             // assert
             Assert.Equal(expected, annualCost);
