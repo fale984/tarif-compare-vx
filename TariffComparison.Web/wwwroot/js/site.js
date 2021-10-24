@@ -26,7 +26,7 @@ function setupCalculator() {
 
         // add result
         if (estimateData) {
-            for (var i = 0; i < estimateData.length; i++) {
+            for (let i = 0; i < estimateData.length; i++) {
                 newGridHtml += createEstimateRow(estimateData[i]);
             }
         }
@@ -47,8 +47,11 @@ function setupCalculator() {
 // product grid functionality
 function setupProductGrid() {
     const productGrid = $('#productsTable tbody');
+    productGrid.on('click', '.delete', remomeProduct);
+
     const productForm = $('#productEditForm');
     productForm.submit(onProductSubmit);
+
     reloadProducts();
 
     // get products from the api
@@ -56,12 +59,12 @@ function setupProductGrid() {
         $.get(`${productsUrl}/`, onProductsResponse);
     }
 
-    // handle produts response
+    // handle products response
     function onProductsResponse(productsData) {
         let newGridHtml = '';
 
         if (productsData) {
-            for (var i = 0; i < productsData.length; i++) {
+            for (let i = 0; i < productsData.length; i++) {
                 newGridHtml += createProductRow(productsData[i]);
             }
         }
@@ -72,7 +75,10 @@ function setupProductGrid() {
     // create an html row for a product
     function createProductRow(product) {
         let rowHtml = `<tr>
-            <td>${product.id}</td>
+            <td>
+                <button type="button" class="btn btn-outline-danger btn-sm delete" data-id="${product.id}"><i class="bi bi-trash"></i></button>
+                ${product.id}
+            </td>
             <td>${product.name}</td>
             <td>€ ${product.baseCost}</td>
             <td>€ ${product.addedCost}</td>`;
@@ -131,5 +137,25 @@ function setupProductGrid() {
     function afterProductSubmit(data) {
         productForm.trigger("reset");
         reloadProducts();
+    }
+
+    // remove product by id
+    function remomeProduct(evt) {
+        const productId = parseInt($(evt.currentTarget).data('id'));
+        if (isNaN(productId) || productId < 1) {
+            return;
+        }
+
+        // ask for confirmation
+        if (!window.confirm(`Do you want to delete product #${productId}?`)) {
+            return;
+        }
+
+        // remove
+        $.ajax({
+            type: 'DELETE',
+            url: `${productsUrl}/${productId}`,
+            success: reloadProducts
+        });
     }
 }

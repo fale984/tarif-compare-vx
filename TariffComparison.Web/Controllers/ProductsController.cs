@@ -71,5 +71,16 @@ namespace TariffComparison.Web.Controllers
 
             return Ok(productToSave);
         }
+
+        // DELETE api/products/2
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            var productToDelete = new TariffProduct { Id = id };
+            dataContext.Attach(productToDelete).State = EntityState.Deleted;
+            await dataContext.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
