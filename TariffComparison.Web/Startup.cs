@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TariffComparison.Core.Contracts;
+using TariffComparison.Core.Factory;
+using TariffComparison.Core.Services;
+using TariffComparison.Data.Context;
 
 namespace TariffComparison.Web
 {
@@ -24,6 +24,13 @@ namespace TariffComparison.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            // Dependencies
+            services.AddTransient<ITariffCalculatorFactory, TariffCalculatorFactory>();
+            services.AddTransient<ITariffCalculatorService, TariffCalculatorService>();
+            // For simplicity the database is In Memory, making it easy to run on other machines
+            services.AddDbContext<ComparisonDataContext>(options =>
+                options.UseInMemoryDatabase(Configuration["AppSettings:ProductsDbName"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

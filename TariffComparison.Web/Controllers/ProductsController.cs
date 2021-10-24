@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TariffComparison.Core.Contracts;
 using TariffComparison.Core.Models;
+using TariffComparison.Data.Context;
 using TariffComparison.Data.Models;
 
 namespace TariffComparison.Web.Controllers
@@ -13,25 +14,33 @@ namespace TariffComparison.Web.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly ComparisonDataContext dataContext;
+        private readonly ITariffCalculatorService calculatorService;
+
+        public ProductsController(ComparisonDataContext context, ITariffCalculatorService calculator)
+        {
+            dataContext = context;
+            calculatorService = calculator;
+        }
+
         // GET api/product
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TariffProduct>>> GetAsync()
+        public async Task<IEnumerable<TariffProduct>> GetAsync()
         {
-            List<TariffProduct> prods = new List<TariffProduct>();
-            prods.Add(new TariffProduct());
+            var products = await dataContext.Products.ToListAsync();
 
-            return prods;
+            return products;
         }
 
         // GET api/product
         [HttpGet("estimate/{consumption}")]
         public async Task<ActionResult<IEnumerable<TariffResult>>> EstimateAnnualCost(decimal consumption)
         {
-            List<TariffResult> prods = new List<TariffResult>();
-            prods.Add(new TariffResult() { Id = 1, Name = "Prod 1", AnnualCost = consumption * 12 });
-            prods.Add(new TariffResult() { Id = 2, Name = "Prod 2", AnnualCost = consumption * 6 });
+            var products = await dataContext.Products.ToListAsync();
 
-            return prods;
+            var estimationResults = calculatorService.CalculateAnnualCost(products, consumption);
+
+            return estimationResults.OrderBy(r => r.AnnualCost).ToList();
         }
     }
 }
