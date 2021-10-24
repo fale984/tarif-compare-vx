@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using TariffComparison.Web.Models;
 
 namespace TariffComparison.Web.Controllers
@@ -19,6 +15,11 @@ namespace TariffComparison.Web.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Products()
         {
             return View();
         }

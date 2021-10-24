@@ -23,7 +23,7 @@ namespace TariffComparison.Web.Controllers
             calculatorService = calculator;
         }
 
-        // GET api/product
+        // GET api/products
         [HttpGet]
         public async Task<IEnumerable<TariffProduct>> GetAsync()
         {
@@ -32,7 +32,21 @@ namespace TariffComparison.Web.Controllers
             return products;
         }
 
-        // GET api/product
+        // GET api/products/2
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TariffProduct>> GetByIdAsync(int id)
+        {
+            var product = await dataContext.Products.FindAsync(id);
+
+            if (product is null)
+            {
+                return NotFound();
+            }
+
+            return product;
+        }
+
+        // GET api/products/estimate/4500
         [HttpGet("estimate/{consumption}")]
         public async Task<ActionResult<IEnumerable<TariffResult>>> EstimateAnnualCost(decimal consumption)
         {
