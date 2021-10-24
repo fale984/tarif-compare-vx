@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TariffComparison.Core\TariffComparison.Core.csproj" />
+    <ProjectReference Include="..\TariffComparison.Data\TariffComparison.Data.csproj" />
+  </ItemGroup>
+
 </Project>
