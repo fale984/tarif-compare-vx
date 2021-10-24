@@ -37,7 +37,6 @@ function setupCalculator() {
     // create an html row for the estimation result
     function createEstimateRow(estimated) {
         return `<tr>
-            <td>${estimated.id}</td>
             <td>${estimated.name}</td>
             <td>€ ${estimated.annualCost}</td>
         </tr>`;
@@ -128,7 +127,7 @@ function setupProductGrid() {
             name: $('#txtName').val(),
             baseCost: parseFloat($('#txtBaseCost').val()),
             addedCost: parseFloat($('#txtAddedCost').val()),
-            threshold: parseFloat($('#txtThreshold').val()),
+            threshold: parseFloat($('#txtThreshold').val() || 0),
             model: parseInt($('input[name=model]:checked', '#productEditForm').val())
         };
     }
