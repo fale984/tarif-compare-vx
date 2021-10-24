@@ -1,0 +1,46 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TariffComparison.Core.Contracts;
+using TariffComparison.Core.Models;
+using TariffComparison.Data.Context;
+using TariffComparison.Data.Models;
+
+namespace TariffComparison.Web.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
+    {
+        private readonly ComparisonDataContext dataContext;
+        private readonly ITariffCalculatorService calculatorService;
+
+        public ProductsController(ComparisonDataContext context, ITariffCalculatorService calculator)
+        {
+            dataContext = context;
+            calculatorService = calculator;
+        }
+
+        // GET api/product
+        [HttpGet]
+        public async Task<IEnumerable<TariffProduct>> GetAsync()
+        {
+            var products = await dataContext.Products.ToListAsync();
+
+            return products;
+        }
+
+        // GET api/product
+        [HttpGet("estimate/{consumption}")]
+        public async Task<ActionResult<IEnumerable<TariffResult>>> EstimateAnnualCost(decimal consumption)
+        {
+            var products = await dataContext.Products.ToListAsync();
+
+            var estimationResults = calculatorService.CalculateAnnualCost(products, consumption);
+
+            return estimationResults.OrderBy(r => r.AnnualCost).ToList();
+        }
+    }
+}

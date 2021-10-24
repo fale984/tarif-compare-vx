@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TariffComparison.Data", "Ta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TariffComparison.Core", "TariffComparison.Core\TariffComparison.Core.csproj", "{605A2E6C-71F4-457C-8DC4-83027395E663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TariffComparison.Tests", "TariffComparison.Tests\TariffComparison.Tests.csproj", "{E59065E0-8296-49B3-9144-6B8E44FF583E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TariffComparison.Tests", "TariffComparison.Tests\TariffComparison.Tests.csproj", "{E59065E0-8296-49B3-9144-6B8E44FF583E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TariffComparison.Web", "TariffComparison.Web\TariffComparison.Web.csproj", "{8E976E89-B32C-48BF-88B5-5A453602EC83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E59065E0-8296-49B3-9144-6B8E44FF583E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E59065E0-8296-49B3-9144-6B8E44FF583E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E59065E0-8296-49B3-9144-6B8E44FF583E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E976E89-B32C-48BF-88B5-5A453602EC83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E976E89-B32C-48BF-88B5-5A453602EC83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E976E89-B32C-48BF-88B5-5A453602EC83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E976E89-B32C-48BF-88B5-5A453602EC83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
