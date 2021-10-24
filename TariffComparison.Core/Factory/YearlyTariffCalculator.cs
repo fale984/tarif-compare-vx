@@ -3,6 +3,7 @@ using TariffComparison.Data.Models;
 
 namespace TariffComparison.Core.Factory
 {
+    /// <inheritdoc />
     public class YearlyTariffCalculator : ITariffCalculatorMethod
     {
         /// <summary>
