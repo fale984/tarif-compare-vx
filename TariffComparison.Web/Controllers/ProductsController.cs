@@ -56,5 +56,20 @@ namespace TariffComparison.Web.Controllers
 
             return estimationResults.OrderBy(r => r.AnnualCost).ToList();
         }
+
+        // POST api/products
+        [HttpPost]
+        public async Task<ActionResult<TariffProduct>> SaveAsync([FromBody] TariffProduct productToSave)
+        {
+            if (productToSave is null)
+            {
+                return BadRequest();
+            }
+
+            dataContext.Products.Add(productToSave);
+            await dataContext.SaveChangesAsync();
+
+            return Ok(productToSave);
+        }
     }
 }

@@ -1,11 +1,11 @@
 ﻿// globals
-const productsUrl = "/api/products";
+const productsUrl = '/api/products';
 
 // calculator functionality
 function setupCalculator() {
     const form = $('#annualCostForm');
     form.submit(onFormSubmit);
-    const resultGrid = $("#resultTable tbody");
+    const resultGrid = $('#resultTable tbody');
 
     // call the estimate api with ajax
     function onFormSubmit(evt) {
@@ -46,7 +46,9 @@ function setupCalculator() {
 
 // product grid functionality
 function setupProductGrid() {
-    const productGrid = $("#productsTable tbody");
+    const productGrid = $('#productsTable tbody');
+    const productForm = $('#productEditForm');
+    productForm.submit(onProductSubmit);
     reloadProducts();
 
     // get products from the api
@@ -77,14 +79,14 @@ function setupProductGrid() {
 
         if (product.model === 1) {
             rowHtml += `
-            <td>-</td>
             <td>Monthly</td>
+            <td>-</td>
         </tr>`;
         }
         else if (product.model === 2) {
             rowHtml += `
-            <td>${product.threshold}</td>
             <td>Yearly</td>
+            <td>${product.threshold} kWh</td>
         </tr>`;
         }
         else {
@@ -95,5 +97,39 @@ function setupProductGrid() {
         }
 
         return rowHtml;
+    }
+
+    // handle submit product
+    function onProductSubmit(evt) {
+        evt.preventDefault();
+
+        const formData = readFormData();
+
+        // send form data to api
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            dataType: 'json',
+            url: productsUrl,
+            success: afterProductSubmit
+        });
+    }
+
+    // create request object
+    function readFormData() {
+        return {
+            name: $('#txtName').val(),
+            baseCost: parseFloat($('#txtBaseCost').val()),
+            addedCost: parseFloat($('#txtAddedCost').val()),
+            threshold: parseFloat($('#txtThreshold').val()),
+            model: parseInt($('input[name=model]:checked', '#productEditForm').val())
+        };
+    }
+
+    // handle post response
+    function afterProductSubmit(data) {
+        productForm.trigger("reset");
+        reloadProducts();
     }
 }
