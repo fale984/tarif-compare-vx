@@ -2,6 +2,7 @@
 {
     public enum TariffModel
     {
+        Undefined = 0,
         Monthly,
         Yearly
     }
